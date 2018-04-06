@@ -2337,6 +2337,10 @@ class ZappaCLI(object):
             triggers = cognito_config.get('triggers', [])
             for trigger in triggers:
                 source = trigger.get('source')
+                source_override = trigger.get('source_override')
+                if source_override is not None:
+                    source = source_override
+
                 function = trigger.get('function')
                 if source and function:
                     cognito_trigger_mapping[source] = function

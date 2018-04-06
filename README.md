@@ -793,10 +793,17 @@ to change Zappa's behavior. Use these at your own risk!
         "cloudwatch_metrics_enabled": false, // Additional metrics for the API Gateway. Default false.
         "cognito": { // for Cognito event triggers
             "user_pool": "user-pool-id", // User pool ID from AWS Cognito
-            "triggers": [{
-                "source": "PreSignUp_SignUp", // triggerSource from http://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html#cognito-user-pools-lambda-trigger-syntax-pre-signup
-                "function": "my_app.pre_signup_function"
-            }]
+            "triggers": [
+                {
+                    "source": "PreSignUp_SignUp", // triggerSource from http://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html#cognito-user-pools-lambda-trigger-syntax-pre-signup
+                    "function": "my_app.pre_signup_function"
+                },
+                {
+                    "source": "PreTokenGeneration"
+                    "source_override": "TokenGeneration_Authentication", // optional override https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-lambda-trigger-syntax-shared.html
+                    "function": "my_app.pre_token_generation_function"
+                }
+            ]
         },
         "context_header_mappings": { "HTTP_header_name": "API_Gateway_context_variable" }, // A dictionary mapping HTTP header names to API Gateway context variables
         "cors": false, // Enable Cross-Origin Resource Sharing. Default false. If true, simulates the "Enable CORS" button on the API Gateway console. Can also be a dictionary specifying lists of "allowed_headers", "allowed_methods", and string of "allowed_origin"
